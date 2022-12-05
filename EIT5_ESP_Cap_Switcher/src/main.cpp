@@ -75,6 +75,7 @@ void loop() {
     while(!commandTime) {
         if((input = Serial.read()) != -1) {
             if((input = Serial.read()) == '\n') {
+                command.concat(input);
                 commandTime = true;
             }
             else {
