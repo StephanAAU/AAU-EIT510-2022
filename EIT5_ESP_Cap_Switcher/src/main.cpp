@@ -84,17 +84,14 @@ void loop() {
         }
     }
 
-    // Form will be *,*,*
-
-    String command = Serial.readStringUntil(',');
-    int cluster    = Serial.readStringUntil(',').toInt();
-    int state      = Serial.readStringUntil('\n').toInt();
+    int cluster = command.substring(command.indexOf(','), command.lastIndexOf(',')).toInt();
+    int state = command.substring(command.lastIndexOf(',')).toInt();
 
     if(cluster < 0 || cluster > switchArrSize) {
         Serial.printf("Error: Cluster number out of bounds\n");
         return;
     }
-    else if(command.equals("single")) {
+    else if(command.substring(0, command.indexOf(',')).equals("s")) {
         if(state < 0 || state > 1) {
             Serial.printf("Error: State is not 0 or 1\n");
             return;
