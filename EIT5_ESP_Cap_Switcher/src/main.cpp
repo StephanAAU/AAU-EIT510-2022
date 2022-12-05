@@ -69,41 +69,90 @@ void setup() {
 }
 
 void loop() {
-    if(Serial.available()) {
-        // Form will be *,*,*
-
-        String command = Serial.readStringUntil(',');
-        int cluster    = Serial.readStringUntil(',').toInt();
-        int state      = Serial.readStringUntil('\n').toInt();
-
-        if(cluster < 0 || cluster > switchArrSize) {
-            Serial.printf("Error: Cluster number out of bounds\n");
-            return;
-        }
-        else if(command.equals("single")) {
-            if(state < 0 || state > 1) {
-                Serial.printf("Error: State is not 0 or 1\n");
-                return;
-            }
-            if(switchArr[cluster].SingleStaticSwitch(state) == 0) {
-                Serial.printf("Switch %i changed to static state %i\n", cluster, state);
+    bool commandTime = false;
+    String command;
+    char input;
+    while(!commandTime) {
+        if((input = Serial.read()) != -1) {
+            if((input = Serial.read()) == '\n') {
+                commandTime = true;
             }
             else {
-                Serial.printf("Something went wrong\n");
+                command.concat(input);
             }
-        }
-        else if(command.equals("save")) {
-            for(int i = 0; i < switchArrSize; i++) {
-                PutPreference(switchArr[i]);
-            }
-            Serial.printf("Setup saved");
-        }
-
-        else {
-            Serial.printf("Invalid command\n");
         }
     }
+
+    // Form will be *,*,*
+
+    String command = Serial.readStringUntil(',');
+    int cluster    = Serial.readStringUntil(',').toInt();
+    int state      = Serial.readStringUntil('\n').toInt();
+
+    if(cluster < 0 || cluster > switchArrSize) {
+        Serial.printf("Error: Cluster number out of bounds\n");
+        return;
+    }
+    else if(command.equals("single")) {
+        if(state < 0 || state > 1) {
+            Serial.printf("Error: State is not 0 or 1\n");
+            return;
+        }
+        if(switchArr[cluster].SingleStaticSwitch(state) == 0) {
+            Serial.printf("Switch %i changed to static state %i\n", cluster, state);
+        }
+        else {
+            Serial.printf("Something went wrong\n");
+        }
+    }
+    else if(command.equals("save")) {
+        for(int i = 0; i < switchArrSize; i++) {
+            PutPreference(switchArr[i]);
+        }
+        Serial.printf("Setup saved");
+    }
+
+    else {
+        Serial.printf("Invalid command\n");
+    }
 }
+
+// void loop() {
+//     if(Serial.available()) {
+//         // Form will be *,*,*
+
+//         String command = Serial.readStringUntil(',');
+//         int cluster    = Serial.readStringUntil(',').toInt();
+//         int state      = Serial.readStringUntil('\n').toInt();
+
+//         if(cluster < 0 || cluster > switchArrSize) {
+//             Serial.printf("Error: Cluster number out of bounds\n");
+//             return;
+//         }
+//         else if(command.equals("single")) {
+//             if(state < 0 || state > 1) {
+//                 Serial.printf("Error: State is not 0 or 1\n");
+//                 return;
+//             }
+//             if(switchArr[cluster].SingleStaticSwitch(state) == 0) {
+//                 Serial.printf("Switch %i changed to static state %i\n", cluster, state);
+//             }
+//             else {
+//                 Serial.printf("Something went wrong\n");
+//             }
+//         }
+//         else if(command.equals("save")) {
+//             for(int i = 0; i < switchArrSize; i++) {
+//                 PutPreference(switchArr[i]);
+//             }
+//             Serial.printf("Setup saved");
+//         }
+
+//         else {
+//             Serial.printf("Invalid command\n");
+//         }
+//     }
+// }
 
 // void loop() {
 //     if(Serial.available()) {
