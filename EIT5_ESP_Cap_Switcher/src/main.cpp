@@ -103,6 +103,18 @@ void loop() {
             Serial.printf("Something went wrong\n");
         }
     }
+    else if(command.equals("p")) {
+        String printtext;
+        for(int i = 0; i < switchArrSize; i++) {
+            if(switchArr[i]._single_pin_state) {
+                printtext.concat("1");
+            }
+            else {
+                printtext.concat("0");
+            }
+        }
+        Serial.printf(printtext.c_str());
+    }
     else if(command.equals("save")) {
         for(int i = 0; i < switchArrSize; i++) {
             PutPreference(switchArr[i]);
