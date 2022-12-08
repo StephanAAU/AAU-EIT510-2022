@@ -70,22 +70,25 @@ void setup() {
 
 void loop() {
     bool commandTime = false;
-    String command;
+    String command = "";
     char input;
     while(!commandTime) {
-        if((input = Serial.read()) != -1) {
-            if((input = Serial.read()) == '\n') {
-                command.concat(input);
-                commandTime = true;
-            }
-            else {
-                command.concat(input);
+        if(Serial.available()) {
+            if((input = Serial.read()) != -1) {
+                if((input) == '\n') {
+                    command.concat(input);
+                    commandTime = true;
+                }
+                else {
+                    command.concat(input);
+                }
             }
         }
+        
     }
 
-    int cluster = command.substring(command.indexOf(','), command.lastIndexOf(',')).toInt();
-    int state = command.substring(command.lastIndexOf(',')).toInt();
+    int cluster = command.substring((command.indexOf(',') + 1), command.lastIndexOf(',')).toInt();
+    int state = command.substring((command.lastIndexOf(',') + 1)).toInt();
 
     if(cluster < 0 || cluster > switchArrSize) {
         Serial.printf("Error: Cluster number out of bounds\n");
@@ -113,13 +116,13 @@ void loop() {
                 printtext.concat("0");
             }
         }
-        Serial.printf(printtext.c_str());
+        Serial.printf("%s\n", printtext.c_str());
     }
     else if(command.substring(0, command.indexOf(',')).equals("save")) {
         for(int i = 0; i < switchArrSize; i++) {
             PutPreference(switchArr[i]);
         }
-        Serial.printf("Setup saved");
+        Serial.printf("Setup saved\n");
     }
 
     else {
