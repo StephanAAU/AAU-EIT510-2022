@@ -103,7 +103,7 @@ void loop() {
             Serial.printf("Something went wrong\n");
         }
     }
-    else if(command.equals("p")) {
+    else if(command.substring(0, command.indexOf(',')).equals("p")) {
         String printtext;
         for(int i = 0; i < switchArrSize; i++) {
             if(switchArr[i]._single_pin_state) {
@@ -115,7 +115,7 @@ void loop() {
         }
         Serial.printf(printtext.c_str());
     }
-    else if(command.equals("save")) {
+    else if(command.substring(0, command.indexOf(',')).equals("save")) {
         for(int i = 0; i < switchArrSize; i++) {
             PutPreference(switchArr[i]);
         }
