@@ -60,7 +60,12 @@ void setup() {
     prefs.begin(prefNameSpace, false);
 
     for(int i = 0; i < switchArrSize; i++) {
-        GetPreference(switchArr[i]);
+        char prefArr[switchArr[i]._pref_name.length() + 1];
+        strcpy(prefArr, switchArr[i]._pref_name.c_str());
+
+        bool state = prefs.getBool(prefArr, false);
+
+        switchArr[i].SingleStaticSwitch(state);
     }
 
     Serial.begin(115200);
