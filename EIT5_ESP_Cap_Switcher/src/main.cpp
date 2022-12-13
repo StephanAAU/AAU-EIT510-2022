@@ -21,7 +21,7 @@ CapSwitch sw5(22, "sw5");
 CapSwitch sw6(21, "sw6");
 CapSwitch sw7(19, "sw7");
 
-CapSwitch swTune(13, "swTune");
+CapSwitch swTune(25, "swTune");
 
 const int switchArrSize = 9;
 CapSwitch switchArr[switchArrSize] = {sw0, sw1, sw2, sw3, sw4, sw5, sw6, sw7, swTune};
