@@ -15,15 +15,22 @@
  * The following function sets up the capacitor switch board
  * Base switch pin is pin 30. Only 1 switch is started at base
 */
-CapSwitch::CapSwitch(uint8_t cap_amount, uint8_t pin_start) {
-    /* Set variables given to constructor */
-    _cap_amount = cap_amount;
-    _pin_start = pin_start;
+// CapSwitch::CapSwitch(uint8_t cap_amount, uint8_t pin_start) {
+//     /* Set variables given to constructor */
+//     _cap_amount = cap_amount;
+//     _pin_start = pin_start;
 
-    /* Set pins as outputs */
-    for(int i = 0; i < _cap_amount; i++) {
-        pinMode((_pin_start + i), OUTPUT);
-    }
+//     /* Set pins as outputs */
+//     for(int i = 0; i < _cap_amount; i++) {
+//         pinMode((_pin_start + i), OUTPUT);
+//     }
+// }
+
+CapSwitch::CapSwitch(uint8_t cap, String prefName) {
+    _pin_start = cap;
+    _pref_name = prefName;
+    /* Set pin as outputs */
+    pinMode(cap, OUTPUT);
 }
 
 /*
@@ -88,8 +95,11 @@ int CapSwitch::ClusterStaticSwitch(uint8_t capState) {
 */
 int CapSwitch::SingleStaticSwitch(uint8_t capState) {
 
-    digitalWrite((_pin_start), !_single_pin_state);
-    _single_pin_state = !_single_pin_state;
+    // digitalWrite((_pin_start), !_single_pin_state);
+    // _single_pin_state = !_single_pin_state;
+
+    digitalWrite((_pin_start), capState);
+    _single_pin_state = capState;
 
     return 0;
 }
