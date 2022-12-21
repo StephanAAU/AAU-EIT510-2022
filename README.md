@@ -18,3 +18,6 @@ This folder contains the scripts to find the optimal soltion for different scena
 
 ### python_control
 The code used to implement the control algorithm connecting the instrument_control and EIT5_ESP_Cap_Switcher
+
+### Test_of_pi_match_calc
+Script used to the test the validity of pi-match evaluation.
